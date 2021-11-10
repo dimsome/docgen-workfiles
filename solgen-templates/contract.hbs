@@ -1,0 +1,29 @@
+# Functions
+
+{{#each ownFunctions}}
+{{#if (or (eq visibility "external") (eq visibility "public")) }}
+{{#if (filterModifiers astNode.modifiers "onlySavingsManager, onlyGovernor, initializer, onlyInterestValidator, onlyOwner, questMasterOrGovernor") }}
+## {{name}}()
+`function {{name}} ({{#natspec.params}}{{#lookup ../args.types @index}}{{/lookup}} {{param}}{{#if @last}}{{else}}, {{/if}}{{/natspec.params}}) {{visibility}}{{#if outputs}} returns ({{outputs}}){{/if}}`
+
+{{#strip}}
+{{{natspec.userdoc}}}
+{{{natspec.devdoc}}}
+{{/strip}}
+
+{{#if astNode.modifiers}}
+### modifiers
+{{#each astNode.modifiers }}
+- {{ modifierName.name }}
+{{/each}}
+{{/if}}
+{{#if natspec.params}}
+| Parameter   | Type        | Description |
+| ----------- | ----------- | ----------- | 
+{{/if}}
+{{#natspec.params~}}| `{{param}}` | {{#lookup ../args.types @index}}{{/lookup}} | {{#strip}}{{description}}{{/strip}} |
+{{/natspec.params}}
+
+{{/if}}
+{{/if}}
+{{/each}}
